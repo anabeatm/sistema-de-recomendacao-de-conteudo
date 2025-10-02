@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Sistema de Recomendacao de Conteudo.iml" filepath="$PROJECT_DIR$/Sistema de Recomendacao de Conteudo.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/sistema-de-recomendacao-de-conteudo.iml" filepath="$PROJECT_DIR$/.idea/sistema-de-recomendacao-de-conteudo.iml" />
     </modules>
   </component>
