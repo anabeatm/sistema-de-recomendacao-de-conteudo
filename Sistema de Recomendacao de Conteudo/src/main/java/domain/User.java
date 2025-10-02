@@ -45,7 +45,7 @@ public class User {
         this.userEmail = userEmail;
     }
 
-    // TODO o método verificar se o item é um filme ou música, além de chegar o limite da regra de négocio
+    // TODO o método precisa verificar se o item é um filme ou música, além de chegar o limite da regra de négocio
     public void addToFavorites(Item item){}
 
     public void removeFromFavorites(Item item) {}
