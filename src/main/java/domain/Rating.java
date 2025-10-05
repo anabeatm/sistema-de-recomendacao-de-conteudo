@@ -70,4 +70,22 @@ public class Rating {
     public void setRating_date(Date rating_date) {
         this.rating_date = rating_date;
     }
+
+    public boolean isHighRating() {
+        return this.rating >= 4;
+    }
+
+    public boolean ifLowRating() {
+        return this.rating <= 2;
+    }
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "user=" + user.getUserName() +
+                ", item=" + item.getItemName() +
+                ", rating=" + getRating() +
+                ", date=" + getRating_date() +
+                '}';
+    }
 }

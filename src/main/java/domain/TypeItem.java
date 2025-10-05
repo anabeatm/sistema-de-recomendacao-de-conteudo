@@ -1,5 +1,5 @@
 package domain;
 
-enum class TypeItem {
+public enum TypeItem {
     FILME, MUSICA;
 }
