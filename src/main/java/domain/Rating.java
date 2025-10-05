@@ -21,6 +21,16 @@ public class Rating {
     @Column(nullable = false)
     private Date rating_date;
 
+    public Rating(User user, Item item, int rating) {
+        if(rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("A nota de avaliação deve ser em um intervalo entre 1 e 5.");
+        }
+        this.user = user;
+        this.item = item;
+        this.rating = rating;
+        this.rating_date = new Date();
+    }
+
     public Long getId() {
         return id;
     }

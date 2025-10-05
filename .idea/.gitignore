@@ -1,0 +1,31 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Compilação e build
+/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Configurações locais do IntelliJ
+.idea/
+*.iml
+out/
+
+# Arquivos do Eclipse (se alguém abrir lá)
+/.settings/
+/bin/
+/.metadata/
+/.classpath
+/.project
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Configurações locais
+.env

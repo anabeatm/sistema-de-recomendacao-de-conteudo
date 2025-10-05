@@ -44,4 +44,13 @@ public class Music extends Item {
     public void setAlbum(String album) {
         this.album = album;
     }
+
+    @Override
+    public String toString() {
+        return "Music {" +
+                "id=" + getId() +
+                ", title=" + getItemName() +
+                ", artist=" + getArtist() +
+                '}';
+    }
 }

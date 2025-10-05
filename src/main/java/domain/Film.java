@@ -44,4 +44,24 @@ public class Film extends Item {
     public void setDirector(String director) {
         this.director = director;
     }
+
+    public String getFormattedDuration() {
+        if(timeInMinutes <= 0) return "N/A";
+
+        long hours = timeInMinutes / 60;
+        long minutes = timeInMinutes % 60;
+
+        return String.format("%dh %02dm", hours, minutes);
+    }
+
+    @Override
+    public String toString() {
+        return "Film {" +
+                "id=" + getId() +
+                ", title=" + getItemName() +
+                ", director=" + getDirector() +
+                '}';
+    }
+
+
 }

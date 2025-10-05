@@ -20,7 +20,7 @@ public abstract class Item {
         if(type.equals(TypeItem.FILME) || type.equals(TypeItem.MUSICA)) {
             this.type = type;
         } else {
-            System.out.println("Erro ao cadastrar: " + item_name + ". Precisa ser um filme ou música.");
+            throw new IllegalArgumentException("Erro ao cadastrar: " + item_name + ". Precisa ser um filme ou música.");
         }
     }
 
@@ -47,4 +47,23 @@ public abstract class Item {
     public void setType(TypeItem type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Item {" +
+                "id=" + getId() +
+                ", title=" + getItemName() +
+                ", type=" + getType() +
+                '}';
+    }
+
+// preciso mesmo desses métodos?
+//    TODO perguntar ao professor e implementar se necessário
+//  @Override
+//  public boolean equals(Object o) {}
+
+//    @Override
+//    public int hashCode() {
+//        return getClass().hashCode();
+//    }
 }
