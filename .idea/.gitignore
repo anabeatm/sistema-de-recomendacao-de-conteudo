@@ -12,7 +12,7 @@
 *.log
 
 # Configurações locais do IntelliJ
-.idea/
+/idea/
 *.iml
 out/
 
