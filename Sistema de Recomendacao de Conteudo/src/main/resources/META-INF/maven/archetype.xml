@@ -1,9 +1,0 @@
-<archetype>
-  <id>Sistema_de_Recomendacao_de_Conteudo</id>
-  <sources>
-    <source>src/main/java/App.java</source>
-  </sources>
-  <testSources>
-    <source>src/test/java/AppTest.java</source>
-  </testSources>
-</archetype>

@@ -1,4 +1,4 @@
-package domain
+package domain;
 
 enum class TypeItem {
     FILME, MUSICA;
