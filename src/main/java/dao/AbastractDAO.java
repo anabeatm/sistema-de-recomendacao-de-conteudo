@@ -20,26 +20,43 @@ public class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();
+
+        em.close();
     }
 
 //    TODO implementar métodos abstratos
     @Override
-    public void att(E entidade) {
+    public void att(E entity) {
+        em.getTransaction().begin();
+        em.persist(entity);
+        em.getTransaction().commit();
 
+        em.close();
     }
 
     @Override
-    public void remove(E entidade) {
+    public void remove(E entity) {
+        em.getTransaction().begin();
 
+        if (em.contains(entity)) {
+            em.remove(entity);
+        } else {
+            em.remove(em.merge(entity));
+        }
+
+        em.getTransaction().commit();
+
+        em.close();
     }
 
     @Override
     public E searchByID(ID id) {
-        return null;
+        return em.find(entityClass, id);
     }
 
     @Override
     public List<E> listAll() {
-        return List.of();
+        String query = "FROM" + entityClass.getSimpleName();
+        return em.createQuery(query, entityClass).getResultList();
     }
 }
