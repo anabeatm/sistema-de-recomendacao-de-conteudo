@@ -32,10 +32,63 @@ public class BinarySearchTree<E extends Comparable<E>>{
         return currentRoot;
     }
 
+    public void delete(E value) {
+        root = delete(value, root);
+    }
+
+    private Node<E> delete(E value, Node<E> currentRoot) {
+        if(isNull(currentRoot)) return null;
+
+        if(value.compareTo(currentRoot.value) < 0) {
+            currentRoot.left = delete(value, currentRoot.left);
+        } else if (value.compareTo(currentRoot.value)>0) {
+            currentRoot.right = delete(value, currentRoot.right);
+        } else {
+            boolean hasLeft = currentRoot.left != null;
+            boolean hasRight = currentRoot.right != null;
+
+            if(!hasLeft && !hasRight) {
+                return null;
+            }
+            if(!hasRight) return currentRoot.left;
+            else if (!hasLeft) return currentRoot.right;
+
+            Node<E> minRight = min(currentRoot.right);
+            currentRoot.value = minRight.value;
+            currentRoot.right = delete(minRight.value, currentRoot.right);
+        }
+
+        return currentRoot;
+    }
+
+    private Node<E> min(Node<E> currentRoot) {
+        Node<E> aux = currentRoot;
+        while(aux.left!=null) {
+            aux = aux.left;
+        }
+        return aux;
+    }
+
+    public boolean search(E value) {
+        return search(value, root);
+    }
+
+    private boolean search(E value, Node<E> currentRoot) {
+        if(isNull(currentRoot)) return false;
+
+        if(value.equals(currentRoot.value)) {
+            return true;
+        } else if (value.compareTo(currentRoot.value)<0) {
+            return search(value, currentRoot.left);
+        } else {
+            return search(value, currentRoot.right);
+        }
+    }
+
     private boolean isNull(Node<E> root) {
         if(root == null) return true;
 
         return false;
     }
-// TODO implementar métodos de remoção e busca
+
 }
