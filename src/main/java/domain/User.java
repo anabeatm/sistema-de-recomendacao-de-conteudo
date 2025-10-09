@@ -12,9 +12,9 @@ public class User {
     private Long id;
 
     @Column(length = 50, nullable = false)
-    private String user_name;
+    private final String user_name;
     @Column(length = 50, nullable = false)
-    private String user_email;
+    private final String user_email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratings = new ArrayList<>();
@@ -45,9 +45,9 @@ public class User {
         this.ratings = ratings;
     }
 
-    // será que é necessário ficar aqui?
-    public List<Rating> getFavoritesFilms(){}
-    public List<Rating> getFavoritesMusics(){}
+    // TODO será que é necessário ficar aqui?
+//    public List<Rating> getFavoritesFilms(){}
+//    public List<Rating> getFavoritesMusics(){}
 
 
 }

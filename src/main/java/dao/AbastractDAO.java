@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
+public abstract class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
     protected final EntityManager em;
     private final Class<E> entityClass;
 
@@ -24,7 +24,6 @@ public class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
         em.close();
     }
 
-//    TODO implementar métodos abstratos
     @Override
     public void att(E entity) {
         em.getTransaction().begin();
