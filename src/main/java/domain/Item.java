@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Item {
+public abstract class Item implements Comparable<Item>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -55,6 +55,11 @@ public abstract class Item {
                 ", title=" + getItemName() +
                 ", type=" + getType() +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Item other) {
+        return this.item_name.compareTo(other.getItemName());
     }
 
 // preciso mesmo desses métodos?
