@@ -4,12 +4,12 @@ import javax.persistence.EntityManager;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
+public abstract class AbstractDAO<E, ID> implements InterfaceDAO<E, ID>{
     protected final EntityManager em;
     private final Class<E> entityClass;
 
     @SuppressWarnings("unchecked")
-    public AbastractDAO(EntityManager em) {
+    public AbstractDAO(EntityManager em) {
         this.em = em;
         this.entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 //        permite que uma classe genérica descubra qual é o tipo real do seu parâmetro genérico <E>
@@ -21,16 +21,14 @@ public abstract class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
         em.persist(entity);
         em.getTransaction().commit();
 
-        em.close();
     }
 
     @Override
     public void att(E entity) {
         em.getTransaction().begin();
-        em.persist(entity);
+        em.merge(entity);
         em.getTransaction().commit();
 
-        em.close();
     }
 
     @Override
@@ -45,7 +43,6 @@ public abstract class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
 
         em.getTransaction().commit();
 
-        em.close();
     }
 
     @Override
@@ -55,7 +52,7 @@ public abstract class AbastractDAO <E, ID> implements InterfaceDAO<E, ID>{
 
     @Override
     public List<E> listAll() {
-        String query = "FROM" + entityClass.getSimpleName();
+        String query = "FROM " + entityClass.getSimpleName();
         return em.createQuery(query, entityClass).getResultList();
     }
 }

@@ -1,12 +1,14 @@
 package dao;
 
+import domain.Film;
 import domain.Item;
+import domain.Music;
 import util.BinarySearchTree;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class ItemDAO extends AbastractDAO<Item, Long>{
+public class ItemDAO extends AbstractDAO<Item, Long> {
     private final BinarySearchTree<Item> itemBinaryTree;
 
     public ItemDAO(EntityManager em) {
@@ -14,10 +16,6 @@ public class ItemDAO extends AbastractDAO<Item, Long>{
         this.itemBinaryTree = new BinarySearchTree<>();
         loadItens();
     }
-
-
-
-
 
 //  Binary Tree treats
     private void loadItens(){
@@ -27,6 +25,14 @@ public class ItemDAO extends AbastractDAO<Item, Long>{
             this.itemBinaryTree.insert(item);
         }
         System.out.println("Full load.");
+    }
+
+    public Item findByFilmTitle(String title){
+        return this.itemBinaryTree.search(new Film(title, null, null, 0, null));
+    }
+
+    public Item findByMusicTitle(String title){
+        return this.itemBinaryTree.search(new Music(title, null, null, null, null));
     }
 
     @Override
