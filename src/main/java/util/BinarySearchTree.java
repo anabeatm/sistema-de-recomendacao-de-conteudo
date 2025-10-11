@@ -17,17 +17,17 @@ public class BinarySearchTree<E extends Comparable<E>>{
         }
     }
 
-    public void add(E value) {
-        add(value, root);
+    public void insert(E value) {
+        insert(value, root);
     }
 
-    private Node add(E value, Node<E> currentRoot) {
+    private Node<E> insert(E value, Node<E> currentRoot) {
         if(isNull(currentRoot)) {
-            currentRoot = new Node(value);
+            currentRoot = new Node<>(value);
         } else if (value.compareTo(currentRoot.value)<0) {
-            currentRoot.left = add(value, currentRoot.left);
+            currentRoot.left = insert(value, currentRoot.left);
         } else if(value.compareTo(currentRoot.value)>0) {
-            currentRoot.right = add(value, currentRoot.right);
+            currentRoot.right = insert(value, currentRoot.right);
         }
         return currentRoot;
     }
@@ -69,15 +69,15 @@ public class BinarySearchTree<E extends Comparable<E>>{
         return aux;
     }
 
-    public boolean search(E value) {
+    public E search(E value) {
         return search(value, root);
     }
 
-    private boolean search(E value, Node<E> currentRoot) {
-        if(isNull(currentRoot)) return false;
+    private E search(E value, Node<E> currentRoot) {
+        if(isNull(currentRoot)) return null;
 
         if(value.equals(currentRoot.value)) {
-            return true;
+            return currentRoot.value;
         } else if (value.compareTo(currentRoot.value)<0) {
             return search(value, currentRoot.left);
         } else {
