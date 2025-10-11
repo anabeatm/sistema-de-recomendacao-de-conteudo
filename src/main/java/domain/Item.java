@@ -17,10 +17,10 @@ public abstract class Item implements Comparable<Item>{
 
     public Item(String item_name, TypeItem type) {
         this.item_name = item_name;
-        if(type.equals(TypeItem.FILME) || type.equals(TypeItem.MUSICA)) {
+        if(type.equals(TypeItem.FILM) || type.equals(TypeItem.MUSIC)) {
             this.type = type;
         } else {
-            throw new IllegalArgumentException("Erro ao cadastrar: " + item_name + ". Precisa ser um filme ou música.");
+            throw new IllegalArgumentException("Error: " + item_name + ". Must be a movie or song.");
         }
     }
 

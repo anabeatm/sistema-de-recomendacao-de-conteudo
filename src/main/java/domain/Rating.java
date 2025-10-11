@@ -23,7 +23,7 @@ public class Rating {
 
     public Rating(User user, Item item, int rating) {
         if(rating < 1 || rating > 5) {
-            throw new IllegalArgumentException("A nota de avaliação deve ser em um intervalo entre 1 e 5.");
+            throw new IllegalArgumentException("The rating should be in a range between 1 and 5.");
         }
         this.user = user;
         this.item = item;

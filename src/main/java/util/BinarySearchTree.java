@@ -1,7 +1,5 @@
 package util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.Comparable;
 
 public class BinarySearchTree<E extends Comparable<E>>{

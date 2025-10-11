@@ -45,9 +45,4 @@ public class User {
         this.ratings = ratings;
     }
 
-    // TODO será que é necessário ficar aqui?
-//    public List<Rating> getFavoritesFilms(){}
-//    public List<Rating> getFavoritesMusics(){}
-
-
 }
