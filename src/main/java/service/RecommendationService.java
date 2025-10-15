@@ -15,12 +15,12 @@ public class RecommendationService {
         this.ratingDAO = ratingDAO;
     }
 
-    public List<Item> getRecommendationForUser(Long userID) {
-        User targetUser = userDAO.searchByID(userID);
-        if(targetUser == null) {
-            throw new IllegalArgumentException("User not found!");
-        }
-//      TODO implementar o método de recomendação
-        return List.of();
-    }
+//    public List<Item> getRecommendationForUser(Long userID) {
+//        User targetUser = userDAO.searchByID(userID);
+//        if(targetUser == null) {
+//            throw new IllegalArgumentException("User not found!");
+//        }
+////      TODO implementar o método de recomendação
+//        return List.of();
+ //   }
 }
