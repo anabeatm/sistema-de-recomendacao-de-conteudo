@@ -4,27 +4,32 @@ import javax.persistence.EntityManager;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+// abstract class with basic abstract methods: like save, update, remove, search by ID and list all in the database
+// where it implements the same methods from InterfaceDAO
 public abstract class AbstractDAO<E, ID> implements InterfaceDAO<E, ID>{
     protected final EntityManager em;
     private final Class<E> entityClass;
 
     @SuppressWarnings("unchecked")
+    // suppresses the compiler warning about the “unchecked” cast ((Class<E>)),
+    // since the compiler cannot guarantee at compile time that the cast is correct
     public AbstractDAO(EntityManager em) {
         this.em = em;
         this.entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-//        permite que uma classe genérica descubra qual é o tipo real do seu parâmetro genérico <E>
+//        allows a generic class to find out what the actual type of its generic parameter <E> is
     }
 
     @Override
-    public void save(E entity) {
+    public E save(E entity) {
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();
 
+        return entity;
     }
 
     @Override
-    public void att(E entity) {
+    public void update(E entity) {
         em.getTransaction().begin();
         em.merge(entity);
         em.getTransaction().commit();
@@ -42,7 +47,6 @@ public abstract class AbstractDAO<E, ID> implements InterfaceDAO<E, ID>{
         }
 
         em.getTransaction().commit();
-
     }
 
     @Override

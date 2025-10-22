@@ -1,11 +1,10 @@
 package dao;
 
-import domain.Film;
 import domain.Item;
-import domain.Music;
 import util.BinarySearchTree;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class ItemDAO extends AbstractDAO<Item, Long> {
@@ -13,8 +12,8 @@ public class ItemDAO extends AbstractDAO<Item, Long> {
 
     public ItemDAO(EntityManager em) {
         super(em);
-        this.itemBinaryTree = new BinarySearchTree<>();
-        loadItens();
+        this.itemBinaryTree = new BinarySearchTree<>(); // stores <<Item>> objects in "cache"
+        loadItens(); // loads items from the database and inserts them into the <<BinaryTree>>
     }
 
 //  Binary Tree treats
@@ -27,18 +26,25 @@ public class ItemDAO extends AbstractDAO<Item, Long> {
         System.out.println("Full load.");
     }
 
-    public Item findByFilmTitle(String title){
-        return this.itemBinaryTree.search(new Film(title, null, null, 0, null));
-    }
+// TODO mudar esses métodos para outra classe tipo util
 
-    public Item findByMusicTitle(String title){
-        return this.itemBinaryTree.search(new Music(title, null, null, null, null));
-    }
+//    public Item findByFilmTitle(String title){
+//        return this.itemBinaryTree.search(new Film(title, null, null, 0, null));
+//    }
+//
+//    public Item findByMusicTitle(String title){
+//        return this.itemBinaryTree.search(new Music(title, null, null, null, null));
+//    }
 
     @Override
-    public void save(Item entity) {
-        super.save(entity);
-        this.itemBinaryTree.insert(entity);
+    public Item save(Item entity) { // TODO colocar um tratamento de exceção aqui
+        try{
+            super.save(entity);
+            this.itemBinaryTree.insert(entity);
+            return entity;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
@@ -48,14 +54,14 @@ public class ItemDAO extends AbstractDAO<Item, Long> {
     }
 
     @Override
-    public void att(Item entity){
-        // para att é preciso remover o estado antigo e inserir o novo
+    public void update(Item entity){
+        // para update é preciso remover o estado antigo e inserir o novo
         Item itemTree = this.itemBinaryTree.search(entity);
         if(itemTree != null) {
             this.itemBinaryTree.delete(itemTree);
         }
 
-        super.att(entity);
+        super.update(entity);
         this.itemBinaryTree.insert(entity);
     }
 }
