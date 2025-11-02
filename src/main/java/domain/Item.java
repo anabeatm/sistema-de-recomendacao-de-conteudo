@@ -11,18 +11,23 @@ public abstract class Item implements Comparable<Item>{
 
     @Column(length = 100, nullable = false)
     protected String item_name;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     protected TypeItem type;
 
-    public Item(String item_name, TypeItem type) {
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
+    protected Category category;
+
+    public Item(){}
+
+    public Item(String item_name, TypeItem type, Category category) {
         this.item_name = item_name;
-        if(type.equals(TypeItem.FILM) || type.equals(TypeItem.MUSIC)) {
-            this.type = type;
-        } else {
-            throw new IllegalArgumentException("Error: " + item_name + ". Must be a movie or song.");
-        }
+        this.type = type;
+        this.category = category;
     }
+
 
     public Long getId() {
         return id;
@@ -62,13 +67,12 @@ public abstract class Item implements Comparable<Item>{
         return this.item_name.compareTo(other.getItemName());
     }
 
-// preciso mesmo desses métodos?
-//    TODO perguntar ao professor e implementar se necessário
-//  @Override
-//  public boolean equals(Object o) {}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return id != null && id.equals(item.id);
+    }
 
-//    @Override
-//    public int hashCode() {
-//        return getClass().hashCode();
-//    }
 }

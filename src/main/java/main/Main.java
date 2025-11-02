@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("Iniciando...");
+
         EntityManager em = JPAUtil.getEntityManager();
         UserDAO userDAO = new UserDAO(em);
         ItemDAO itemDAO = new ItemDAO(em);

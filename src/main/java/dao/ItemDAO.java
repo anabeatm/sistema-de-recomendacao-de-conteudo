@@ -26,25 +26,14 @@ public class ItemDAO extends AbstractDAO<Item, Long> {
         System.out.println("Full load.");
     }
 
-// TODO mudar esses métodos para outra classe tipo util
-
-//    public Item findByFilmTitle(String title){
-//        return this.itemBinaryTree.search(new Film(title, null, null, 0, null));
-//    }
-//
-//    public Item findByMusicTitle(String title){
-//        return this.itemBinaryTree.search(new Music(title, null, null, null, null));
-//    }
 
     @Override
-    public Item save(Item entity) { // TODO colocar um tratamento de exceção aqui
-        try{
-            super.save(entity);
+    public Item save(Item entity) {
+        super.save(entity);
+        if(entity.getId() != null) {
             this.itemBinaryTree.insert(entity);
-            return entity;
-        } catch (NoResultException e) {
-            return null;
         }
+        return entity;
     }
 
     @Override

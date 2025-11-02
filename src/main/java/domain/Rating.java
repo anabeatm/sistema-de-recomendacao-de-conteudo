@@ -12,14 +12,19 @@ public class Rating {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
+
     @Column(nullable = false)
     private int rating; // 1 to 5
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date rating_date;
+
+    public Rating(){}
 
     public Rating(User user, Item item, int rating) {
         if(rating < 1 || rating > 5) {
