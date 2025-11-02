@@ -53,6 +53,10 @@ public abstract class Item implements Comparable<Item>{
         this.type = type;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
     @Override
     public String toString() {
         return "Item {" +

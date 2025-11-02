@@ -1,50 +1,47 @@
 package main;
 
-import dao.CategoryDAO;
 import dao.ItemDAO;
 import dao.RatingDAO;
 import dao.UserDAO;
-import domain.*;
+import domain.Item;
+import domain.User;
+import service.RecommendationService;
 import util.JPAUtil;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Iniciando...");
-
         EntityManager em = JPAUtil.getEntityManager();
+
         UserDAO userDAO = new UserDAO(em);
         ItemDAO itemDAO = new ItemDAO(em);
         RatingDAO ratingDAO = new RatingDAO(em);
-        CategoryDAO categoryDAO = new CategoryDAO(em);
 
-        User ana = new User("Ana", "ana@email.com");
-        User bruno = new User("Bruno", "bruno@email.com");
-        userDAO.save(ana);
-        userDAO.save(bruno);
+        RecommendationService recommendationService = new RecommendationService(userDAO, ratingDAO, itemDAO);
 
-        Category catSciFi = new Category("Sci-Fi");
-        Category catRock = new Category("Rock");
-        categoryDAO.save(catSciFi);
-        categoryDAO.save(catRock);
+        long userIdParaTestar = 26L;
+        User user = userDAO.searchByID(userIdParaTestar);
 
-        Item filmMatrix = new Film("The Matrix", TypeItem.FILM, catSciFi, 136, "Wachowski");
-        Item musicQueen = new Music("Bohemian Rhapsody", TypeItem.MUSIC, catRock, "Queen", "A Night at the Opera");
-        Item filmInception = new Film("Inception", TypeItem.FILM, catSciFi, 148, "Christopher Nolan");
-        itemDAO.save(filmMatrix);
-        itemDAO.save(musicQueen);
-        itemDAO.save(filmInception);
+        if (user == null) {
+            System.out.println("ERRO: User com ID " + userIdParaTestar + " não encontrado!");
+            em.close();
+            return;
+        }
 
-        Rating ratingAnaMatrix = new Rating(ana, filmMatrix, 5); // Ana amou Matrix
-        Rating ratingAnaInception = new Rating(ana, filmInception, 4); // Ana gostou de Inception
-        Rating ratingBrunoMatrix = new Rating(bruno, filmMatrix, 5); // Bruno também amou Matrix
-        Rating ratingBrunoQueen = new Rating(bruno, musicQueen, 5); // Bruno amou Queen
-        ratingDAO.save(ratingAnaMatrix);
-        ratingDAO.save(ratingAnaInception);
-        ratingDAO.save(ratingBrunoMatrix);
-        ratingDAO.save(ratingBrunoQueen);
+        List<Item> recommendations = recommendationService.getRecommendationsByCategory(userIdParaTestar);
 
+        if (recommendations.isEmpty()) {
+            System.out.println("Nenhuma recomendação encontrada para este user com base nas suas categorias favoritas.");
+        } else {
+            System.out.println("Recomendações para " + user.getUserName() + ":");
+            for (int i = 0; i < recommendations.size(); i++) {
+                Item item = recommendations.get(i);
+                System.out.println("  " + (i + 1) + ". " + item.getItemName() + " (Categoria: " + item.getCategory().getName() + ")");
+            }
+        }
 
+        em.close();
     }
 }

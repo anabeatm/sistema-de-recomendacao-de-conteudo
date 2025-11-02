@@ -24,6 +24,7 @@ public class Rating {
     @Column(nullable = false)
     private Date rating_date;
 
+
     public Rating(){}
 
     public Rating(User user, Item item, int rating) {

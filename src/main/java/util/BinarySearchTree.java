@@ -2,6 +2,8 @@ package util;
 
 import java.lang.Comparable;
 
+// BinaryTree will be used as a "cache" to store the items, as its search processing is faster compared to the database
+
 public class BinarySearchTree<E extends Comparable<E>>{
     private Node<E> root;
 
@@ -74,9 +76,11 @@ public class BinarySearchTree<E extends Comparable<E>>{
     private E search(E value, Node<E> currentRoot) {
         if(isNull(currentRoot)) return null;
 
-        if(value.equals(currentRoot.value)) {
+        int compare = value.compareTo(currentRoot.value);
+
+        if(compare == 0) {
             return currentRoot.value;
-        } else if (value.compareTo(currentRoot.value)<0) {
+        } else if (compare<0) {
             return search(value, currentRoot.left);
         } else {
             return search(value, currentRoot.right);
