@@ -59,15 +59,17 @@ Additionally, the system can generate analytical reports, such as the list of mo
     ```
 
 3. **Configure the Database:**  
-   Edit the connection settings in:  
-   `src/main/resources/META-INF/persistence.xml`
+   Edit the connection settings in:
+   ```bash  
+   src/main/resources/META-INF/persistence.xml
+   ```
 
-4. **Build the project:**
+5. **Build the project:**
     ```bash
     mvn clean install
     ```
 
-5. **Run the application:**  
+6. **Run the application:**  
     ```bash
     java -jar target/your-artifact-name.jar
     ```
