@@ -6,12 +6,12 @@
 
 This is an academic project developed for the Object-Oriented Programming (OOP) course. The goal is to build a content recommendation system in Java, applying fundamental OOP principles and using JPA for data persistence.
 
-The system allows registered users to rate items (such as movies, books, etc.) with a score from 1 to 5. Based on these ratings, the system generates personalized recommendations using two main approaches:
+The system allows registered users to rate items (such as movies and musics) with a score from 1 to 5. Based on these ratings, the system generates personalized recommendations using two main approaches:
 
-1. **Collaborative Filtering:** Recommends items based on ratings from users with similar preferences.
-2. **Content-Based Filtering:** Recommends items that share characteristics with items the user has positively rated.
+1. **Collaborative Filtering:** Recommends items based on ratings from users with similar preferences. [in progress]
+2. **Content-Based Filtering:** Recommends items that share characteristics with items the user has positively rated. [in progress]
 
-Additionally, the system can generate analytical reports, such as the list of most popular items and the accuracy of the generated recommendations.
+Additionally, the system can generate analytical reports, such as the list of most popular items and the accuracy of the generated recommendations. [in progress]
 
 ## ✨ Main Features
 
@@ -35,7 +35,7 @@ Additionally, the system can generate analytical reports, such as the list of mo
 
 - **Encapsulation:** Objects keep their internal state protected.
 - **Abstraction:** Real-world entities represented by simplified classes.
-- **Inheritance:** Possible specializations (e.g., `Book`, `Movie` inheriting from `Item`).
+- **Inheritance:** Possible specializations (e.g., `Film`, `Movie` inheriting from `Item`).
 - **Polymorphism:** Recommendation strategies implementing a common `Recommender` interface.
 - **SOLID Principles:** Ensuring clean, maintainable, and extensible code.
 
