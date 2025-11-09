@@ -21,16 +21,16 @@ public class Main {
 
         RecommendationService recommendationService = new RecommendationService(userDAO, ratingDAO, itemDAO);
 
-        long userIdParaTestar = 26L;
-        User user = userDAO.searchByID(userIdParaTestar);
+        long userId = 50L;
+        User user = userDAO.searchByID(userId);
 
         if (user == null) {
-            System.out.println("ERRO: User com ID " + userIdParaTestar + " não encontrado!");
+            System.out.println("ERRO: User com ID " + userId + " não encontrado!");
             em.close();
             return;
         }
 
-        List<Item> recommendations = recommendationService.getRecommendationsByCategory(userIdParaTestar);
+        List<Item> recommendations = recommendationService.getRecommendationsByCategory(userId);
 
         if (recommendations.isEmpty()) {
             System.out.println("Nenhuma recomendação encontrada para este user com base nas suas categorias favoritas.");

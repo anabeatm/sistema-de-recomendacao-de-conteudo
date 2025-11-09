@@ -16,26 +16,6 @@ public class RecommendationService {
         this.itemDAO = itemDAO;
     }
 
-    public UserDAO getUserDAO() {
-        return userDAO;
-    }
-
-    public RatingDAO getRatingDAO() {
-        return ratingDAO;
-    }
-
-    public ItemDAO getItemDAO(){return itemDAO;}
-
-
-
-    private ItemScore findItemInScoreList(List<ItemScore> list, Item item) {
-        for(ItemScore is : list) {
-            if(is.getItem().equals(item)) {
-                return is;
-            }
-        }
-        return null;
-    }
 
     private boolean listContainsCategory(List<Category> list, Category category){
         for(Category c : list){
@@ -97,17 +77,15 @@ public class RecommendationService {
             }
         }
 
-        Collections.sort(candidateScores);
+        Collections.sort(candidateScores); // ascending order
 
         List<Item> finalRecommendations = new ArrayList<>();
-        for(ItemAverageScore itemAverageScore : candidateScores){
-            finalRecommendations.add(itemAverageScore.getItem());
+        for(ItemAverageScore iAverageScore : candidateScores){
+            finalRecommendations.add(iAverageScore.getItem());
         }
 
         return finalRecommendations;
     }
-
-
 
     private static class ItemAverageScore implements Comparable<ItemAverageScore> {
         private final Item item;
@@ -122,25 +100,7 @@ public class RecommendationService {
 
         @Override
         public int compareTo(ItemAverageScore other) {
-            return Double.compare(other.averageScore, this.averageScore); //ordena da maior p menor
-        }
-    }
-
-    private static class UserScore implements Comparable<UserScore> {
-        private final User user;
-        private final int score;
-
-        public UserScore(User user, int score) {
-            this.user = user;
-            this.score = score;
-        }
-
-        public User getUser(){return user;}
-        public int getScore(){return score;}
-
-        @Override
-        public int compareTo(UserScore other){
-            return Integer.compare(other.score, this.score);
+            return Double.compare(other.averageScore, this.averageScore); //ordena da maior p/ menor
         }
     }
 
