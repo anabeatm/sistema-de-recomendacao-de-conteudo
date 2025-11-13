@@ -1,83 +1,80 @@
-# Sistema de Recomendação de Conteúdo
+# Content Recommendation System
 
 ![Java](https://img.shields.io/badge/Java-17-blue) ![JPA](https://img.shields.io/badge/JPA-Hibernate-green) ![Maven](https://img.shields.io/badge/Maven-3.8-red)
 
-## 📖 Descrição
+## 📖 Description
 
-Este é um projeto acadêmico desenvolvido para a disciplina de Programação Orientada a Objetos (POO). O objetivo é construir um sistema de recomendação de conteúdo em Java, aplicando os princípios fundamentais da POO e utilizando o JPA para a persistência de dados.
+This is an academic project developed for the Object-Oriented Programming (OOP) course. The goal is to build a content recommendation system in Java, applying fundamental OOP principles and using JPA for data persistence.
 
-O sistema permite que usuários cadastrados avaliem diferentes itens (como filmes, livros, etc.) com uma nota de 1 a 5. Com base nessas avaliações, o sistema gera recomendações personalizadas utilizando duas abordagens principais:
+The system allows registered users to rate items (such as movies and musics) with a score from 1 to 5. Based on these ratings, the system generates personalized recommendations using two main approaches:
 
-1.  **Filtragem Colaborativa:** Recomenda itens com base nas avaliações de usuários com gostos similares.
-2.  **Filtragem Baseada em Conteúdo:** Recomenda itens com características parecidas com as dos itens que o usuário já avaliou positivamente.
+1. **Collaborative Filtering:** Recommends items based on ratings from users with similar preferences. [in progress]
+2. **Content-Based Filtering:** Recommends items that share characteristics with items the user has positively rated. [in progress]
 
-Além disso, o sistema é capaz de gerar relatórios para análise, como a lista de itens mais populares e a taxa de acerto das recomendações geradas.
+Additionally, the system can generate analytical reports, such as the list of most popular items and the accuracy of the generated recommendations. [in progress]
 
-## ✨ Funcionalidades Principais
+## ✨ Main Features
 
-- **Cadastro de Usuários e Itens:** Gerenciamento completo (CRUD) de usuários e itens no sistema.
-- **Avaliação de Itens:** Permite que um usuário atribua uma nota de 1 a 5 a um item.
-- **Geração de Recomendações:**
-    - Implementação de algoritmo de Filtragem Colaborativa.
-    - Implementação de algoritmo de Filtragem Baseada em Conteúdo.
-- **Geração de Relatórios:**
-    - Listagem dos itens mais populares (com base na média de notas e/ou número de avaliações).
-    - Cálculo e exibição da taxa de acerto das recomendações.
+- **User and Item Management:** Full CRUD operations.
+- **Item Rating:** Users can assign scores from 1 to 5.
+- **Recommendation Generation:**
+  - Collaborative Filtering algorithm
+  - Content-Based Filtering algorithm
+- **Report Generation:**
+  - Most popular items (based on average rating and/or number of ratings)
+  - Recommendation accuracy
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies Used
 
-- **Linguagem Principal:** [Java (Versão 17 ou superior)](https://www.oracle.com/java/)
-- **Persistência de Dados:** [JPA (Java Persistence API)](https://javaee.github.io/jpa-spec/) com implementação do [Hibernate](https://hibernate.org/).
-- **Gerenciador de Dependências:** [Apache Maven](https://maven.apache.org/)
-- **Banco de Dados:** MySQL
+- **Language:** Java 17+
+- **Persistence:** JPA (Hibernate)
+- **Dependencies:** Apache Maven
+- **Database:** MySQL
 
-## 📐 Conceitos de POO Aplicados
+## 📐 Applied OOP Concepts
 
-Este projeto foi estruturado para seguir as melhores práticas e os pilares da Programação Orientada a Objetos:
+- **Encapsulation:** Objects keep their internal state protected.
+- **Abstraction:** Real-world entities represented by simplified classes.
+- **Inheritance:** Possible specializations (e.g., `Film`, `Movie` inheriting from `Item`).
+- **Polymorphism:** Recommendation strategies implementing a common `Recommender` interface.
+- **SOLID Principles:** Ensuring clean, maintainable, and extensible code.
 
-- **Encapsulamento:** Os dados dos objetos são protegidos e acessados apenas através de métodos públicos, garantindo a integridade do estado interno das classes.
-- **Abstração:** As classes são modeladas para representar entidades do mundo real (Usuário, Item, Avaliação) de forma simplificada, focando nos atributos e comportamentos essenciais.
-- **Herança:** Pode ser utilizada para criar especializações de itens (ex: `Livro`, `Filme` herdando de `Item`).
-- **Polimorfismo:** Pode ser aplicado em estratégias de recomendação, onde diferentes algoritmos implementam uma mesma interface `Recomendador`.
-- **Princípios SOLID:** O código busca seguir os princípios SOLID para criar um software mais limpo, manutenível e extensível.
+## ⚙️ Requirements
 
-## ⚙️ Pré-requisitos
+- JDK 17+
+- Apache Maven
+- Git
+- A DBMS (e.g., PostgreSQL) or an in-memory DB like H2
 
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-- [JDK 17 ou superior](https://www.oracle.com/java/technologies/downloads/)
-- [Apache Maven](https://maven.apache.org/download.cgi)
-- [Git](https://git-scm.com/)
-- Um SGBD de sua escolha (ex: PostgreSQL) ou nenhum, se for usar um banco em memória como o H2.
+## 🚀 How to Run the Project
 
-## 🚀 Como Executar o Projeto
-
-1.  **Clone o repositório:**
+1. **Clone the repository:**
     ```bash
-    git clone [https://github.com/anabeatm/sistema-de-recomendacao-de-conteudo](https://github.com/anabeatm/sistema-de-recomendacao-de-conteudo)
+    git clone https://github.com/anabeatm/sistema-de-recomendacao-de-conteudo
     ```
 
-2.  **Acesse a pasta do projeto:**
+2. **Navigate into the project folder:**
     ```bash
     cd anabeatm/sistema-de-recomendacao-de-conteudo
     ```
 
-3.  **Configure o Banco de Dados:**
-    As configurações de conexão com o banco de dados estão no arquivo:
-    `src/main/resources/META-INF/persistence.xml`
+3. **Configure the Database:**  
+   Edit the connection settings in:
+   ```bash  
+   src/main/resources/META-INF/persistence.xml
+   ```
 
-
-4.  **Compile o projeto com o Maven:**
+5. **Build the project:**
     ```bash
     mvn clean install
     ```
 
-5.  **Execute a aplicação:**
-    (A forma de execução pode variar. Se for uma aplicação de console, pode ser um comando específico)
+6. **Run the application:**  
     ```bash
-    java -jar target/nome-do-seu-artefato.jar
+    java -jar target/your-artifact-name.jar
     ```
 
-## 📂 Estrutura do Projeto
+## 📂 Project Structure
 
 ```
 /
@@ -97,10 +94,9 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 │       └── resources/
 └── pom.xml                         // Arquivo de configuração do Maven
 ```
-
-## 👨‍💻 Autor
+## 👨‍💻 Author
 
 | [<br><sub>**Ana Beatriz Tavares Malaquias**</sub>](https://github.com/anabeatm) |
 |:-------------------------------------------------------------------------------:|
 
-Feito com ❤️ por Ana Beatriz Tavares Malaquias 👋🏽
+Made with ❤️ by Ana Beatriz Tavares Malaquias 👋🏽
