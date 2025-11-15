@@ -80,8 +80,11 @@ public class RecommendationService {
         Collections.sort(candidateScores); // ascending order
 
         List<Item> finalRecommendations = new ArrayList<>();
-        for(ItemAverageScore iAverageScore : candidateScores){
-            finalRecommendations.add(iAverageScore.getItem());
+
+        int limit = Math.min(10, candidateScores.size());
+
+        for(int i = 0; i < limit; i++){
+            finalRecommendations.add(candidateScores.get(i).getItem());
         }
 
         return finalRecommendations;

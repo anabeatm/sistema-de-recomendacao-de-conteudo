@@ -24,7 +24,7 @@ public class Main {
 
         RecommendationService recommendationService = new RecommendationService(userDAO, ratingDAO, itemDAO);
 
-        long userId = 1000L;
+        long userId = 1093L;
         User user = userDAO.searchByID(userId);
 
         if (user == null) {
