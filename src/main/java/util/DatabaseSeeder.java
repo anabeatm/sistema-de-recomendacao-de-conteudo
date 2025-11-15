@@ -16,17 +16,29 @@ public class DatabaseSeeder {
         EntityManager em = null;
         Faker faker = new Faker(new Locale("pt-BR"));
         Random random = new Random();
+        try{
+             em = JPAUtil.getEntityManager();
 
-//        try{
-//            em = JPAUtil.getEntityManager();
-//
-//            int QNTD_USERS = 10000;
-//            int QNTD_FILMS = 5000;
-//            int QNTD_MUSICS = 5000;
-//            int QTND_RATINGS = 80000;
-//            // TODO
-//            List<Category> categories = seedCategories
-//        }
+             int QNTD_USERS = 10000;
+             int QNTD_FILMS = 5000;
+              int QNTD_MUSICS = 5000;
+              int QNTD_RATINGS = 80000;
+
+              List<Category> categories = seedCategories(em, faker);
+              List<User> users = seedUsers(em, faker, QNTD_USERS);
+              List<Item> items = seedItems(em, faker, categories, QNTD_FILMS, QNTD_MUSICS);
+              seedRatings(em, users, items, QNTD_RATINGS, random);
+        } catch (Exception e) {
+            System.err.println("Erro durante o seeder!!");
+            e.printStackTrace();
+            if(em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        } finally {
+            if(em!=null) {
+                em.close();
+            }
+        }
     }
 
     private static List<Category> seedCategories(EntityManager em, Faker faker) {
@@ -81,10 +93,10 @@ public class DatabaseSeeder {
                     random.nextInt(120) + 60, // 60 to 180 min
                     faker.name().fullName()
             );
-            em.persist(film);
-            created.add(film);
+            Film managedFilm = em.merge(film);
+            created.add(managedFilm);
 
-            if(i % BATCH == 0) {
+            if(i % (BATCH / 2) == 0) {
                 em.flush();
                 em.clear();
             }
@@ -101,10 +113,10 @@ public class DatabaseSeeder {
                     faker.book().genre() + " Album"
             );
 
-            em.persist(music);
-            created.add(music);
+            Music managedMusic = em.merge(music);
+            created.add(managedMusic);
 
-            if(i % BATCH == 0) {
+            if(i % (BATCH / 2) == 0) {
                 em.flush();
                 em.clear();
             }
@@ -123,7 +135,7 @@ public class DatabaseSeeder {
             int rating = random.nextInt(5) + 1; // 1 to 5
 
             Rating ran = new Rating(user, item, rating);
-            em.persist(ran);
+            em.merge(ran);
 
             if(i % BATCH == 0) {
                 em.flush();
