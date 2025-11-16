@@ -2,6 +2,9 @@ package service;
 
 import dao.ItemDAO;
 import domain.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -42,21 +45,26 @@ public class ItemService {
         return itemDAO.listAll();
     }
 
-    private Item findByFilmTitle(String title){
-        Film filmSearch = new Film(title, TypeItem.FILM, null, 0, "");
-        return this.itemDAO.getItemBinaryTree().search(filmSearch);
-    }
-
-    private Item findByMusicTitle(String title){
-        Music musicSearch = new Music(title, TypeItem.MUSIC, null, "", "");
-        return this.itemDAO.getItemBinaryTree().search(musicSearch);
-    }
-
     public Item findItemByTitle(String title) {
-        Item item = findByFilmTitle(title);
-        if(item == null) item = findByMusicTitle(title);
+        EntityManager em = itemDAO.getEm();
+        try {
+            TypedQuery<Item> query = em.createQuery(
+                    "SELECT i FROM Item i WHERE LOWER(i.item_name) = LOWER(:title)",
+                    Item.class
+            );
+            query.setParameter("title", title);
 
-        if(item == null) throw new RuntimeException("Error: item with name '"+title+"' not found.");
-        return item;
+            List<Item> items = query.getResultList();
+
+            if (items.isEmpty()) {
+
+                throw new NoResultException();
+            }
+
+            return items.get(0);
+
+        } catch (NoResultException e) {
+            throw new RuntimeException("Error: item with name '" + title + "' not found.");
+        }
     }
 }

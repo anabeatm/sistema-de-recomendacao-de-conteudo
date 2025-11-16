@@ -19,6 +19,10 @@ public abstract class AbstractDAO<E, ID> implements InterfaceDAO<E, ID>{
 //        allows a generic class to find out what the actual type of its generic parameter <E> is
     }
 
+    public EntityManager getEm() {
+        return this.em;
+    }
+
     @Override
     public E save(E entity) {
         em.getTransaction().begin();

@@ -168,7 +168,7 @@ public class View {
 
             System.out.print("Title: ");
             String title = scanner.nextLine();
-            System.out.print("Category (e.g., Action, Rock, Drama): ");
+            System.out.print("Category (e.g., Action, Rock, Drama, Pop): ");
             String categoryName = scanner.nextLine();
 
             if (typeChoice == 1) {
