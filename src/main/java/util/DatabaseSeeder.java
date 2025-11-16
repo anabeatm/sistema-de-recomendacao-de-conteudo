@@ -10,9 +10,9 @@ import java.util.Locale;
 import java.util.Random;
 
 public class DatabaseSeeder {
-    private static final int BATCH = 50;
+    private final int BATCH = 50;
 
-    public static void run() {
+    public void run() {
         EntityManager em = null;
         Faker faker = new Faker(new Locale("pt-BR"));
         Random random = new Random();
@@ -21,13 +21,14 @@ public class DatabaseSeeder {
 
              int QNTD_USERS = 10000;
              int QNTD_FILMS = 5000;
-              int QNTD_MUSICS = 5000;
-              int QNTD_RATINGS = 80000;
+             int QNTD_MUSICS = 5000;
+             int QNTD_RATINGS = 80000;
 
-              List<Category> categories = seedCategories(em, faker);
-              List<User> users = seedUsers(em, faker, QNTD_USERS);
-              List<Item> items = seedItems(em, faker, categories, QNTD_FILMS, QNTD_MUSICS);
-              seedRatings(em, users, items, QNTD_RATINGS, random);
+            List<Category> filmCategories = seedFilmCategory(em);
+            List<Category> musicCategories = seedMusicCategory(em);
+            List<User> users = seedUsers(em, faker, QNTD_USERS);
+            List<Item> items = seedItems(em, faker, filmCategories, musicCategories, QNTD_FILMS, QNTD_MUSICS);
+            seedRatings(em, users, items, QNTD_RATINGS, random);
         } catch (Exception e) {
             System.err.println("Erro durante o seeder!!");
             e.printStackTrace();
@@ -40,16 +41,31 @@ public class DatabaseSeeder {
             }
         }
     }
+// COM ERRO:
+//    private static List<Category> seedCategories(EntityManager em, Faker faker) {
+//        List<Category> created = new ArrayList<>();
+//        String[] catNames = {"Ficção Científica", "Rock", "Ação", "Pop", "Animação", "Comédia", "Drama", "Terror",
+//                "Romance", "Fantasia", "Clássica", "Eletrônica", "Hip-Hop", "Indie", "Documentário", "Mistério",
+//                "Suspense", "Guerra", "Faroeste", "Musical"};
+//
+//        em.getTransaction().begin();
+//
+//        for(String name : catNames) {
+//            Category cat = new Category(name);
+//            em.persist(cat);
+//            created.add(cat);
+//        }
+//        em.getTransaction().commit();
+//        return created;
+//    }
 
-    private static List<Category> seedCategories(EntityManager em, Faker faker) {
+    private List<Category> seedFilmCategory(EntityManager em) {
         List<Category> created = new ArrayList<>();
-        String[] catNames = {"Ficção Científica", "Rock", "Ação", "Pop", "Animação", "Comédia", "Drama", "Terror",
-                "Romance", "Fantasia", "Clássica", "Eletrônica", "Hip-Hop", "Indie", "Documentário", "Mistério",
-                "Suspense", "Guerra", "Faroeste", "Musical"};
+        String[] catNames = {"Science Fiction", "Action", "Animation", "Comedy", "Drama", "Horror", "Romance",
+                "Fantasy", "Documentary", "Mystery", "Suspense", "War", "Western"};
 
         em.getTransaction().begin();
-
-        for(String name : catNames) {
+        for (String name : catNames) {
             Category cat = new Category(name);
             em.persist(cat);
             created.add(cat);
@@ -58,7 +74,22 @@ public class DatabaseSeeder {
         return created;
     }
 
-    private static List<User> seedUsers(EntityManager em, Faker faker, int count) {
+    private List<Category> seedMusicCategory(EntityManager em) {
+        List<Category> created = new ArrayList<>();
+        String[] catNames = {"Rock", "Pop", "Classical", "Electronic", "Hip-Hop", "Indie", "Musical", "Jazz",
+                "Reggae", "Funk"};
+
+        em.getTransaction().begin();
+        for (String name : catNames) {
+            Category cat = new Category(name);
+            em.persist(cat);
+            created.add(cat);
+        }
+        em.getTransaction().commit();
+        return created;
+    }
+
+    private List<User> seedUsers(EntityManager em, Faker faker, int count) {
         List<User> created = new ArrayList<>(count);
 
         em.getTransaction().begin();
@@ -78,14 +109,15 @@ public class DatabaseSeeder {
         return created;
     }
 
-    private static List<Item> seedItems(EntityManager em, Faker faker, List<Category> categories, int filmCount, int musicCount) {
+    private List<Item> seedItems(EntityManager em, Faker faker, List<Category> filmCategories,
+                                 List<Category> musicCategories, int filmCount, int musicCount) {
         List<Item> created = new ArrayList<>(filmCount + musicCount);
         Random random = new Random();
 
         em.getTransaction().begin();
 
         for(int i = 1; i <= filmCount; i++) {
-            Category cat = categories.get(random.nextInt(categories.size()));
+            Category cat = filmCategories.get(random.nextInt(filmCategories.size()));
             Film film = new Film(
                     faker.book().title(),
                     TypeItem.FILM,
@@ -103,7 +135,7 @@ public class DatabaseSeeder {
         }
 
         for(int i = 1; i < musicCount; i++) {
-            Category cat = categories.get(random.nextInt(categories.size()));
+            Category cat = musicCategories.get(random.nextInt(musicCategories.size()));
 
             Music music = new Music(
                     faker.book().title() + " Song",
@@ -126,7 +158,7 @@ public class DatabaseSeeder {
         return created;
     }
 
-    private static void seedRatings(EntityManager em, List<User> users, List<Item> items, int count, Random random) {
+    private void seedRatings(EntityManager em, List<User> users, List<Item> items, int count, Random random) {
         em.getTransaction().begin();
 
         for (int i = 1; i < count; i++) {

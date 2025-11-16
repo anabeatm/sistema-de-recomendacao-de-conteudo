@@ -125,7 +125,7 @@ public class View {
             int count = 0;
             for (Rating r : myRatings) {
                 if (r.getItem().getType() == type) {
-                    System.out.println("  - " + r.getItem().getItemName() + " (Rating: " + r.getRating() + ")");
+                    System.out.println("  - " + r.getItem().getItemName() + " (Rating: " + r.getRating() + "; Category: " + r.getItem().getCategory().getName() + ")");
                     count++;
                 }
             }
