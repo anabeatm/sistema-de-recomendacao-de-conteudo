@@ -1,6 +1,5 @@
 package service;
 
-import dao.CategoryDAO;
 import dao.ItemDAO;
 import domain.*;
 
@@ -8,25 +7,24 @@ import java.util.List;
 
 public class ItemService {
     private final ItemDAO itemDAO;
-    private final CategoryDAO categoryDAO;
+    private final CategoryService categoryService;
 
-    public ItemService(ItemDAO itemDAO, CategoryDAO categoryDAO) {
+
+    public ItemService(ItemDAO itemDAO, CategoryService categoryService) {
         this.itemDAO = itemDAO;
-        this.categoryDAO = categoryDAO;
+        this.categoryService = categoryService;
     }
 
-    public Film registerNewFilm(String title, Long categoryID, int duration, String director) {
-        Category category = categoryDAO.searchByID(categoryID);
-        if(category == null) throw new RuntimeException("Error: Category with ID "+categoryID+" not found.");
+    public Film registerNewFilm(String title, String categoryName, int duration, String director) {
+        Category category = categoryService.findOrCreateCategory(categoryName);
 
         Film newFilm = new Film(title, TypeItem.FILM, category, duration, director);
         itemDAO.save(newFilm);
         return newFilm;
     }
 
-    public Music registerNewMusic(String title, Long categoryID, String artist, String album) {
-        Category category = categoryDAO.searchByID(categoryID);
-        if(category == null) throw new RuntimeException("Error: Category with ID "+categoryID+" not found.");
+    public Music registerNewMusic(String title, String categoryName, String artist, String album) {
+        Category category = categoryService.findOrCreateCategory(categoryName);
 
         Music newMusic = new Music(title, TypeItem.MUSIC, category, artist,album);
         itemDAO.save(newMusic);
@@ -44,14 +42,21 @@ public class ItemService {
         return itemDAO.listAll();
     }
 
+    private Item findByFilmTitle(String title){
+        Film filmSearch = new Film(title, TypeItem.FILM, null, 0, "");
+        return this.itemDAO.getItemBinaryTree().search(filmSearch);
+    }
 
-    // TODO mudar esses métodos para outra classe tipo util
+    private Item findByMusicTitle(String title){
+        Music musicSearch = new Music(title, TypeItem.MUSIC, null, "", "");
+        return this.itemDAO.getItemBinaryTree().search(musicSearch);
+    }
 
-//    public Item findByFilmTitle(String title){
-//        return this.itemBinaryTree.search(new Film(title, null, null, 0, null));
-//    }
-//
-//    public Item findByMusicTitle(String title){
-//        return this.itemBinaryTree.search(new Music(title, null, null, null, null));
-//    }
+    public Item findItemByTitle(String title) {
+        Item item = findByFilmTitle(title);
+        if(item == null) item = findByMusicTitle(title);
+
+        if(item == null) throw new RuntimeException("Error: item with name '"+title+"' not found.");
+        return item;
+    }
 }

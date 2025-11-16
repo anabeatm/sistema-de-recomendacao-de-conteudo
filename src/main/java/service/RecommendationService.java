@@ -31,7 +31,7 @@ public class RecommendationService {
     // 2. buscar filmes da mesma categorias que outras pessoas avaliaram
     // 3. o maior avaliado, vai ser recomendado dentro do genero
 
-    public List<Item> getRecommendationsByCategory(Long userID) {
+    public List<Item> getRecommendationsByCategory(Long userID, TypeItem requiredType) {
 //        encontrar categorias favs
         User targetUser = userDAO.searchByID(userID);
         if(targetUser == null) throw new IllegalArgumentException("User not found!");
@@ -61,7 +61,7 @@ public class RecommendationService {
 
         for(Item candidate : allItems) {
             boolean notSeen = !seenItems.contains(candidate);
-            boolean inFavoriteCategory = listContainsCategory(favoriteCategories, candidate.getCategory());
+            boolean inFavoriteCategory = candidate.getCategory() != null && listContainsCategory(favoriteCategories, candidate.getCategory());
 
             if(notSeen && inFavoriteCategory) {
                 List<Rating> allRatingsForItem = ratingDAO.findByItem(candidate);
@@ -81,10 +81,16 @@ public class RecommendationService {
 
         List<Item> finalRecommendations = new ArrayList<>();
 
-        int limit = Math.min(10, candidateScores.size());
+        for(ItemAverageScore itemAverageScore : candidateScores) {
+            Item item = itemAverageScore.getItem();
 
-        for(int i = 0; i < limit; i++){
-            finalRecommendations.add(candidateScores.get(i).getItem());
+            if(item.getType() == requiredType) {
+                finalRecommendations.add(item);
+            }
+
+            if(finalRecommendations.size() >= 10) {
+                break;
+            }
         }
 
         return finalRecommendations;

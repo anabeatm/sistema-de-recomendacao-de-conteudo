@@ -53,4 +53,8 @@ public class ItemDAO extends AbstractDAO<Item, Long> {
         super.update(entity);
         this.itemBinaryTree.insert(entity);
     }
+
+    public BinarySearchTree<Item> getItemBinaryTree() {
+        return this.itemBinaryTree;
+    }
 }
