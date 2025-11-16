@@ -16,14 +16,16 @@ public class CategoryService {
         if(categoryName == null || categoryName.trim().isEmpty()) {
             throw new IllegalArgumentException("Category name can't be empty.");
         }
-
-        Category category = categoryDAO.findByName(categoryName.trim());
+        String lowerName = categoryName.trim().toLowerCase();
+        Category category = categoryDAO.findByName(lowerName);
 
         if(category == null){
-            System.out.println("(Service: '" + categoryName + "' category not found. Creating a new one...)");
-            category = new Category(categoryName.trim());
+            System.out.println("(Service: '" + lowerName + "' category not found. Creating a new one...)");
+
+            category = new Category(lowerName);
             categoryDAO.save(category);
         }
+
         return category;
     }
 

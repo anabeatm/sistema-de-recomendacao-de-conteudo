@@ -14,13 +14,15 @@ public class CategoryDAO extends AbstractDAO<Category, Long> {
 
     public Category findByName(String name) {
         try{
-            TypedQuery<Category> query = em.createQuery("SELECT c FROM Category c WHERE c.name = :name", Category.class);
+            TypedQuery<Category> query = em.createQuery(
+                    "SELECT c FROM Category c WHERE LOWER(c.name) = :name",
+                    Category.class
+            );
+
             query.setParameter("name", name);
             return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
-
-
 }
