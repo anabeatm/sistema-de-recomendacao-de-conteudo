@@ -6,11 +6,11 @@ import java.util.List;
 // especificando um conjunto de métodos abstratos que devem ser implementados por qualquer classe que
 // declare implementá-la.
 public interface InterfaceDAO<E, ID> {
-    E save(E entidade);
+    E save(E entity);
 
-    void update(E entidade);
+    void update(E entity);
 
-    void remove(E entidade);
+    void remove(E entity);
 
     E searchByID(ID id);
 

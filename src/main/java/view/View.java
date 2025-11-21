@@ -29,10 +29,37 @@ public class View {
     public void run() {
         while(true) {
             if(currentUser == null) {
-                runLoginLoop();
+                startSystem();
             } else {
                 runMainMenuLoop();
             }
+        }
+    }
+
+    private void startSystem() {
+        System.out.println("\n.\uD81A\uDD54 ݁ ˖๋ ࣭ ⭑. Recommendation System ! \uD81A\uDD54 ݁ ˖๋ ࣭ ⭑");
+        System.out.println("[1] Create new user");
+        System.out.println("[2] Enter");
+        System.out.print("Input: ");
+
+        int enter = -1;
+        try {
+            enter = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e){
+            System.out.println("Invalidate option. Try again.");
+            return;}
+
+        if(enter == 1) {
+            System.out.print("Username: ");
+            String userName = scanner.nextLine();
+            System.out.print("Email: ");
+            String newEmail = scanner.nextLine();
+
+            userService.registerNewUser(userName, newEmail);
+        } else if(enter == 2){
+            runLoginLoop();
+        } else {
+            System.out.println("Invalidate option. Try again.");
         }
     }
 
@@ -54,15 +81,18 @@ public class View {
     }
 
     private void runMainMenuLoop() {
-        System.out.println("\n--- MENU (" + currentUser.getUserName() + ") ---");
-        System.out.println("1. add film/music");
-        System.out.println("2. rating film/music");
-        System.out.println("3. my ratings (films)");
-        System.out.println("4. my ratings (Musics)");
-        System.out.println("5. see my recommendations (film)");
-        System.out.println("6. see my recommendations (musics)");
-        System.out.println("0. off");
-        System.out.print("your option: ");
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n--- MENU (").append(currentUser.getUserName()).append(") ---\n")
+                .append("1. add film/music\n")
+                .append("2. rating film/music\n")
+                .append("3. my ratings (films)\n")
+                .append("4. my ratings (musics)\n")
+                .append("5. see my recommendations (film)\n")
+                .append("6. see my recommendations (musics)\n")
+                .append("0. off\n")
+                .append("your option: ");
+
+        System.out.print(sb);
 
         int choice = -1;
         try{
@@ -172,7 +202,7 @@ public class View {
             String categoryName = scanner.nextLine();
 
             if (typeChoice == 1) {
-                System.out.print("Duration (em minutos): ");
+                System.out.print("Duration (in minutes): ");
                 int duration = Integer.parseInt(scanner.nextLine());
                 System.out.print("Director: ");
                 String director = scanner.nextLine();
